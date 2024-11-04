@@ -1,7 +1,6 @@
-CREATE TABLE SEGMENT (N_SEGMENT VARCHAR(10) NOT NULL, NOM_SEGMENT VARCHAR(20) NOT NULL, PRIMARY KEY (N_SEGMENT))
+CREATE TABLE SEGMENT (N_SEGMENT VARCHAR(10) NOT NULL, NOM_SEGMENT VARCHAR(20) NOT NULL, PRIMARY KEY (N_SEGMENT));
 
-CREATE TABLE SALLE (N_SALLE VARCHAR(7), NOM_SALLE VARCHAR(20), NB_POSTE NUMERIC(3))
-ALTER TABLE SALLE ADD PRIMARY KEY (n_salle);
+CREATE TABLE SALLE (N_SALLE VARCHAR(7), NOM_SALLE VARCHAR(20), NB_POSTE NUMERIC(3), PRIMARY KEY (n_salle));
 ALTER TABLE SALLE ADD COLUMN N_SEGMENT VARCHAR(10);
 ALTER TABLE SALLE ADD CONSTRAINT FK_N_SEGMENT FOREIGN KEY (N_SEGMENT) REFERENCES segment(n_segment);
 
@@ -159,4 +158,40 @@ DO $$
      ELSE
          RAISE NOTICE 'Il n''y a aucun PC n''ayant pas le logiciel Slq Server d''installé.';
      END IF;
- END $$;
+END $$;
+
+## Partie 2 : 
+
+### Exercice 1
+
+CREATE DATABASE exercice2;
+
+CREATE TABLE entreprise (n_siret varchar(14) NOT NULL, raison_social varchar(20), adresse varchar(50), PRIMARY KEY (n_siret));
+
+CREATE TABLE agence (id varchar(14), adresse varchar(50), PRIMARY KEY (id));
+ALTER TABLE agence ADD COLUMN n_siret varchar(14);
+ALTER TABLE agence ADD CONSTRAINT fk_n_siret FOREIGN KEY (n_siret) REFERENCES entreprise(n_siret);
+
+INSERT INTO entreprise (n_siret, raison_social, adresse) VALUES 
+ ('12345678901234', 'Tech Innov', '12 Avenue des Sciences, 75001 Paris'),
+ ('56789012345678', 'Green Solutions', '45 Rue de l''Écologie, 69002 Lyon'),
+ ('98765432109876', 'Smart Build', '3 Boulevard de la Construction, 13001 Marseille'),
+ ('54321098765432', 'Digital Wave', '99 Rue du Numérique, 33000 Bordeaux');
+
+ INSERT INTO agence (id, adresse, n_siret) VALUES 
+ ('AG123', '24 Quai de la Garonne, 31000 Toulouse', '12345678901234'),
+ ('AG124', '16 Rue de l''Innovation, 75003 Paris', '12345678901234'),
+ ('AG125', '34 Avenue du Progrès, 69003 Lyon', '12345678901234'),
+ ('AG126', '1 Boulevard des Sciences, 34000 Montpellier', '12345678901234'),
+ ('AG456', '78 Allée des Énergies, 44000 Nantes', '56789012345678'),
+ ('AG457', '12 Rue Verte, 38000 Grenoble', '56789012345678'),
+ ('AG458', '5 Rue de la Nature, 67000 Strasbourg', '56789012345678'),
+ ('AG459', '10 Rue des Plantes, 21000 Dijon', '56789012345678'),
+ ('AG789', '22 Place de la Liberté, 59000 Lille', '98765432109876'),
+ ('AG790', '50 Rue des Travaux, 31000 Toulouse', '98765432109876'),
+ ('AG791', '15 Boulevard de la Construction, 72000 Le Mans', '98765432109876'),
+ ('AG792', '9 Rue du Bâtiment, 41000 Blois', '98765432109876'),
+ ('AG101', '5 Rue de la Mer, 06000 Nice', '54321098765432'),
+ ('AG102', '3 Place du Digital, 69002 Lyon', '54321098765432'),
+ ('AG103', '8 Rue des Réseaux, 75015 Paris', '54321098765432'),
+ ('AG104', '21 Avenue du Numérique, 33000 Bordeaux', '54321098765432');
