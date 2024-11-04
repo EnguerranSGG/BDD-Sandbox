@@ -119,7 +119,44 @@ MERGE INTO installer AS inst USING old_installer AS old_inst ON inst.n_poste = o
 
  UPDATE segment SET n_segment = '130.120.08' WHERE nom_segment = 'segment 80';
 
+ ## Part5
 
+ALTER TABLE installer DROP CONSTRAINT installer_n_poste_fkey1;
+ALTER TABLE installer ADD CONSTRAINT fk_n_poste FOREIGN KEY (n_poste) REFERENCES poste(n_poste) ON DELETE CASCADE;
 
+DELETE FROM poste WHERE fk_n_salle = 'S21';
 
+DO $$
+ BEGIN
+     IF EXISTS (SELECT 1 FROM poste JOIN installer ON installer.n_poste = poste.n_poste WHERE installer.n_logiciel = 'Log7') THEN
+         DELETE FROM poste
+         USING installer
+         WHERE installer.n_poste = poste.n_poste
+         AND installer.n_logiciel = 'Log7';
+         RAISE NOTICE 'Les enregistrements ont été supprimés.';
+     ELSE
+         RAISE NOTICE 'Il n''y a aucun PC ayant le logiciel IIS d''installé.';
+     END IF;
+ END $$
 
+ ALTER TABLE poste
+ DROP CONSTRAINT fk_n_salle,
+ ADD CONSTRAINT fk_n_salle
+ FOREIGN KEY (fk_n_salle) REFERENCES salle(n_salle)
+ ON UPDATE CASCADE
+ ON DELETE CASCADE;
+
+ DELETE FROM salle WHERE n_salle = 'S01';
+
+ DO $$
+ BEGIN
+     IF EXISTS (SELECT * FROM poste JOIN installer ON installer.n_poste = poste.n_poste WHERE installer.n_logiciel <> 'Log3') THEN
+         DELETE FROM poste
+         USING installer
+         WHERE installer.n_poste = poste.n_poste
+         AND installer.n_logiciel <> 'Log3';
+         RAISE NOTICE 'Les enregistrements ont été supprimés.';
+     ELSE
+         RAISE NOTICE 'Il n''y a aucun PC n''ayant pas le logiciel Slq Server d''installé.';
+     END IF;
+ END $$;
