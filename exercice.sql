@@ -195,3 +195,26 @@ INSERT INTO entreprise (n_siret, raison_social, adresse) VALUES
  ('AG102', '3 Place du Digital, 69002 Lyon', '54321098765432'),
  ('AG103', '8 Rue des Réseaux, 75015 Paris', '54321098765432'),
  ('AG104', '21 Avenue du Numérique, 33000 Bordeaux', '54321098765432');
+
+CREATE TABLE client (id SERIAL NOT NULL, nom VARCHAR(20) NOT NULL, prenom VARCHAR(20) NOT NULL, adresse VARCHAR(50), num_telephone VARCHAR(10), PRIMARY KEY (id));
+
+CREATE TABLE client_entreprise (
+      id_client INTEGER NOT NULL,
+      n_siret VARCHAR(14) NOT NULL,
+      PRIMARY KEY (id_client, n_siret),
+      FOREIGN KEY (id_client) REFERENCES client(id),
+      FOREIGN KEY (n_siret) REFERENCES entreprise(n_siret));
+
+INSERT INTO client (nom, prenom, adresse, num_telephone) VALUES
+     ('Martin', 'Alice', '12 Rue des Lilas, Paris', '0123456789'),
+     ('Dupont', 'Pierre', '34 Avenue des Champs, Lyon', '0234567890'),
+     ('Durand', 'Sophie', '56 Boulevard Victor Hugo, Marseille', '0345678901'),
+     ('Petit', 'Louis', '78 Rue du Faubourg, Lille', '0456789012'),
+     ('Moreau', 'Claire', '90 Rue de Rivoli, Bordeaux', '0567890123');
+
+INSERT INTO client_entreprise (id_client, n_siret) VALUES
+     (1, '12345678901234'),  
+     (2, '56789012345678'),  
+     (3, '98765432109876'),  
+     (4, '54321098765432'),  
+     (5, '12345678901234');
