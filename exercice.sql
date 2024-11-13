@@ -178,7 +178,7 @@ INSERT INTO entreprise (n_siret, raison_social, adresse) VALUES
  ('98765432109876', 'Smart Build', '3 Boulevard de la Construction, 13001 Marseille'),
  ('54321098765432', 'Digital Wave', '99 Rue du Numérique, 33000 Bordeaux');
 
- INSERT INTO agence (id, adresse, n_siret) VALUES 
+INSERT INTO agence (id, adresse, n_siret) VALUES 
  ('AG123', '24 Quai de la Garonne, 31000 Toulouse', '12345678901234'),
  ('AG124', '16 Rue de l''Innovation, 75003 Paris', '12345678901234'),
  ('AG125', '34 Avenue du Progrès, 69003 Lyon', '12345678901234'),
