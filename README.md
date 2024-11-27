@@ -7,4 +7,4 @@ Ce repository a pour vocation de regrouper des cours et des exercices PostgreSQL
 
 2 - Est-ce qu'il faut prévoir des régles différentes pour l'archivage des promotions avec des titres pros à la clé ? 
 
-3 - Concernant la category
+3 - Concernant la category ??
